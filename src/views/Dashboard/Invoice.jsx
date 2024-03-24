@@ -3,7 +3,6 @@ import axios from "../../utils/axios";
 import AddInvoice from "./AddInvoice.jsx";
 import { Button, Layout, Menu, Breadcrumb, Typography, Spin } from "antd";
 import InvoiceTable from "./InvoiceTable.jsx";
-import getCookieToken from "../../utils/getCookieToken";
 import AppFooter from "./Footer.jsx";
 
 const { Header, Content } = Layout;
@@ -13,20 +12,39 @@ const Invoice = () => {
 	const [data, setData] = useState([]);
 	const [loading, setLoading] = useState(false);
 	const [modalVisible, setModalVisible] = useState(false);
-
-	const userInfo = getCookieToken();
-	const user_id = userInfo.userId;
+	const [token, setToken] = useState("");
+	const [userId, setUserId] = useState("");
 
 	useEffect(() => {
-		fetchData();
+		const storedUserId = localStorage.getItem("user_id");
+		if (storedUserId) {
+			setUserId(storedUserId);
+		}
 	}, []);
 
-	const fetchData = async () => {
+	useEffect(() => {
+		const storedToken = localStorage.getItem("jwtToken");
+		if (storedToken) {
+			setToken(storedToken);
+		}
+	}, []);
+
+	useEffect(() => {
+		if (userId) {
+			fetchData(userId);
+		}
+	}, [userId]);
+
+	const fetchData = async (userId) => {
 		try {
 			setLoading(true);
-			const response = await axios.get(`/invoices/${user_id}`);
+			const response = await axios.get(`/invoices/${userId}`, {
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			});
+			const rawData = response.data;
 
-			const rawData = await response.data;
 			const truncatedData = rawData.map((item) => ({
 				...item,
 				invoice_date: new Date(item.invoice_date).toISOString().split("T")[0],
@@ -41,8 +59,12 @@ const Invoice = () => {
 
 	const handleDelete = async (invoiceId) => {
 		try {
-			await axios.delete(`/invoices/${invoiceId}`);
-			fetchData();
+			await axios.delete(`/invoices/${invoiceId}`, {
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			});
+			fetchData(userId);
 		} catch (error) {
 			console.error("Error deleting invoice:", error);
 		}
@@ -50,8 +72,12 @@ const Invoice = () => {
 
 	const handleAddInvoice = async (values) => {
 		try {
-			await axios.post("/invoices", values);
-			fetchData();
+			await axios.post("/invoices", values, {
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			});
+			fetchData(userId);
 			setModalVisible(false);
 		} catch (error) {
 			console.error("Error adding invoice:", error);
@@ -60,8 +86,12 @@ const Invoice = () => {
 
 	const handleUpdateInvoice = async (values) => {
 		try {
-			await axios.put(`/invoices/${values.invoice_id}`, values);
-			fetchData();
+			await axios.put(`/invoices/${values.invoice_id}`, values, {
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			});
+			fetchData(userId);
 			setModalVisible(false);
 		} catch (error) {
 			console.error("Error adding invoice:", error);
@@ -73,8 +103,18 @@ const Invoice = () => {
 	};
 
 	const handleLogout = async () => {
-		await axios.get("/logout");
-		window.location.reload();
+		try {
+			await axios.get("/logout", {
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			});
+			localStorage.removeItem("jwtToken");
+			localStorage.removeItem("user_id");
+			window.location.reload();
+		} catch (error) {
+			console.error("Error logging out:", error);
+		}
 	};
 
 	return (

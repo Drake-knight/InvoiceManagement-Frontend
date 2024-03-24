@@ -33,6 +33,8 @@ const RegistrationForm = () => {
 			setIsSubmitting(true);
 			const { data } = await axios.post("/register", values);
 			setIsSubmitting(false);
+			localStorage.setItem("jwtToken", data.token);
+			localStorage.setItem("user_id", data.user_id);
 			const modal = Modal.success({
 				content: (
 					<Result

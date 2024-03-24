@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
-import { Layout } from "antd";
+import { Layout, Spin } from "antd";
 import Invoice from "./views/Dashboard/Invoice.jsx";
 import Login from "./views/Login/index.jsx";
 import RegistrationForm from "./views/Register/index.jsx";
-import getCookieToken from "./utils/getCookieToken";
+import { getToken } from "./utils/getToken.js";
+
+const { Content } = Layout;
 
 function App() {
 	return (
@@ -16,7 +18,7 @@ function App() {
 					<Route
 						path="/invoice"
 						render={() => {
-							const isLoggedIn = getCookieToken();
+							const isLoggedIn = getToken();
 
 							return isLoggedIn ? (
 								<Route exact path="/invoice" component={Invoice} />

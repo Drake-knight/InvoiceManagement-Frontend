@@ -20,9 +20,10 @@ const Login = () => {
 		try {
 			setIsLoading(true);
 			const { data } = await axios.post("/login", values);
-			localStorage.setItem("token", data.token);
-			setIsLoading(false);
+			localStorage.setItem("jwtToken", data.token);
+			localStorage.setItem("user_id", data.user_id);
 			history.push("/invoice");
+			setIsLoading(false);
 		} catch (error) {
 			setIsLoading(false);
 			console.error(error);
