@@ -66,17 +66,38 @@ const InvoiceTable = ({ data, handleDelete, handleUpdateInvoice }) => {
 				onCancel={() => setVisible(false)}
 				onOk={handleEditFormSubmit}>
 				<Form form={form} layout="vertical">
-					<Form.Item name="customer_name" label="Customer Name">
+					<Form.Item
+						name="customer_name"
+						label="Customer Name"
+						rules={[{ required: true, message: "Please enter customer name" }]}>
 						<Input />
 					</Form.Item>
-					<Form.Item name="customer_email" label="Customer Email">
+					<Form.Item
+						name="customer_email"
+						label="Customer Email"
+						rules={[
+							{ required: true, message: "Please enter customer email" },
+							{ type: "email", message: "Please enter a valid email address" },
+						]}>
 						<Input />
 					</Form.Item>
-					<Form.Item name="customer_phone" label="Customer Phone">
+					<Form.Item
+						name="customer_phone"
+						label="Customer Phone"
+						rules={[
+							{ required: true, message: "Please enter customer phone" },
+							{
+								pattern: /^[0-9]{10}$/,
+								message: "Please enter a 10-digit phone number",
+							},
+						]}>
 						<Input />
 					</Form.Item>
-					<Form.Item name="date" label="Invoice Date">
-						<DatePicker />
+					<Form.Item
+						name="date"
+						label="Invoice Date"
+						rules={[{ required: true, message: "Please select invoice date" }]}>
+						<DatePicker style={{ width: "100%" }} />
 					</Form.Item>
 				</Form>
 			</Modal>
