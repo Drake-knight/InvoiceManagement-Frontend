@@ -7,8 +7,6 @@ import RegistrationForm from "./views/Register/index.jsx";
 import getCookieToken from "./utils/getCookieToken";
 
 function App() {
-	const isLoggedIn = getCookieToken();
-
 	return (
 		<Layout id="app">
 			<Router basename="/">
@@ -16,11 +14,21 @@ function App() {
 					<Route exact path="/register" component={RegistrationForm} />
 					<Route exact path="/login" component={Login} />
 					<Route
-						exact
 						path="/invoice"
-						render={() => (isLoggedIn ? <Invoice /> : <Redirect to="/login" />)}
+						render={() => {
+							const isLoggedIn = getCookieToken();
+
+							return isLoggedIn ? (
+								<Route exact path="/invoice" component={Invoice} />
+							) : (
+								<Redirect to="/login" />
+							);
+						}}
 					/>
-					<Redirect from="/" to="/login" />
+
+					<Route path="*">
+						<Redirect to="/login" />
+					</Route>
 				</Switch>
 			</Router>
 		</Layout>
