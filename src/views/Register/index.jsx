@@ -33,7 +33,6 @@ const RegistrationForm = () => {
 			setIsSubmitting(true);
 			const { data } = await axios.post("/register", values);
 			setIsSubmitting(false);
-			setVerificationModalVisible(true);
 			const modal = Modal.success({
 				content: (
 					<Result
