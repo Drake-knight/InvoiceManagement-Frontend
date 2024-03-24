@@ -7,5 +7,5 @@ export default defineConfig({
 	plugins: [
 		react(),
 	],
-	base: "/InvoiceManagement-Frontend/",
+	base: "/",
 });

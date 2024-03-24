@@ -1,17 +1,23 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Modal, Form, Input, Button, DatePicker, Space } from "antd";
 import { PlusOutlined, MinusCircleOutlined } from "@ant-design/icons";
-import getCookieToken from "../../utils/getCookieToken";
 
 const AddInvoiceModal = ({ visible, onCreate, onCancel }) => {
 	const [form] = Form.useForm();
 	const [lineItems, setLineItems] = useState([{ item_name: "", quantity: "", price: "" }]);
 
-	const userInfo = getCookieToken();
+	const [userId, setUserId] = useState("");
+
+	useEffect(() => {
+		const storedUserId = localStorage.getItem("user_id");
+		if (storedUserId) {
+			setUserId(storedUserId);
+		}
+	}, []);
 
 	const handleCreate = () => {
 		form.validateFields().then((values) => {
-			onCreate({ ...values, userId: userInfo.userId });
+			onCreate({ ...values, userId: userId });
 			form.resetFields();
 			setLineItems([]);
 		});
