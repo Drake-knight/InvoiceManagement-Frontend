@@ -21,7 +21,6 @@ const InvoiceTable = ({
 	const [addItemForm] = Form.useForm();
 	const [editItemForm] = Form.useForm();
 
-	// Add a new state variable for invoiceId
 	const [invoiceId, setInvoiceId] = useState(null);
 
 	const columns = [
@@ -231,7 +230,7 @@ const InvoiceTable = ({
 							{ type: "number", message: "Price must be a number" },
 							{ required: true, message: "Please enter item price" },
 						]}>
-						<Input type="number" />
+						<Input placeholder="Price (₹)" type="number" />
 					</Form.Item>
 					<Form.Item
 						name="quantity"
@@ -240,7 +239,7 @@ const InvoiceTable = ({
 							{ type: "number", message: "Quantity must be a number" },
 							{ required: true, message: "Please enter item quantity" },
 						]}>
-						<Input type="number" />
+						<Input placeholder="in number" type="number" />
 					</Form.Item>
 				</Form>
 			</Modal>
@@ -273,7 +272,7 @@ const InvoiceTable = ({
 							{ type: "number", message: "Quantity must be a number" },
 							{ required: true, message: "Please enter item quantity" },
 						]}>
-						<Input type="number" />
+						<Input placeholder="in number" type="number" />
 					</Form.Item>
 				</Form>
 			</Modal>
