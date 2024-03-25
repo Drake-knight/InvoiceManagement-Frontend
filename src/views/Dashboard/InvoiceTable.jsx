@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Table, Button, Modal, Form, Input, Space, DatePicker } from "antd";
+import { Table, Button, Modal, Form, Input, Space, DatePicker, InputNumber } from "antd";
 import moment from "moment";
 
 const InvoiceTable = ({
@@ -226,20 +226,14 @@ const InvoiceTable = ({
 					<Form.Item
 						name="price"
 						label="Price(₹)"
-						rules={[
-							{ type: "number", message: "Price must be a number" },
-							{ required: true, message: "Please enter item price" },
-						]}>
-						<Input placeholder="Price (₹)" type="number" />
+						rules={[{ required: true, message: "Please enter item price" }]}>
+						<InputNumber placeholder="Price (₹)" min={0} />
 					</Form.Item>
 					<Form.Item
 						name="quantity"
 						label="Quantity"
-						rules={[
-							{ type: "number", message: "Quantity must be a number" },
-							{ required: true, message: "Please enter item quantity" },
-						]}>
-						<Input placeholder="in number" type="number" />
+						rules={[{ required: true, message: "Please enter item quantity" }]}>
+						<InputNumber placeholder="in number" min={0} />
 					</Form.Item>
 				</Form>
 			</Modal>
@@ -258,21 +252,15 @@ const InvoiceTable = ({
 					</Form.Item>
 					<Form.Item
 						name="price"
-						label="Price"
-						rules={[
-							{ type: "number", message: "Price must be a number" },
-							{ required: true, message: "Please enter item price" },
-						]}>
-						<Input placeholder="Price (₹)" type="number" />
+						label="Price(₹)"
+						rules={[{ required: true, message: "Please enter item price" }]}>
+						<InputNumber placeholder="Price (₹)" min={0} />
 					</Form.Item>
 					<Form.Item
 						name="quantity"
 						label="Quantity"
-						rules={[
-							{ type: "number", message: "Quantity must be a number" },
-							{ required: true, message: "Please enter item quantity" },
-						]}>
-						<Input placeholder="in number" type="number" />
+						rules={[{ required: true, message: "Please enter item quantity" }]}>
+						<InputNumber placeholder="in number" min={0} />
 					</Form.Item>
 				</Form>
 			</Modal>
