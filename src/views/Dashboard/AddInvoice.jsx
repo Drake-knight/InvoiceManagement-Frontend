@@ -83,7 +83,10 @@ const AddInvoiceModal = ({ visible, onCreate, onCancel }) => {
 										name={[name, "quantity"]}
 										fieldKey={[fieldKey, "quantity"]}
 										rules={[{ required: true, message: "Missing quantity" }]}>
-										<Input placeholder="Quantity" style={{ width: 100 }} />
+										<Input
+											placeholder="Quantity(number)"
+											style={{ width: 100 }}
+										/>
 									</Form.Item>
 									<Form.Item
 										{...restField}

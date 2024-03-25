@@ -127,7 +127,6 @@ const Invoice = () => {
 
 	const handleUpdateLine = async (values, line_item_id) => {
 		try {
-			console.log(values);
 			await axios.put(`/line-items/${line_item_id}`, values, {
 				headers: {
 					Authorization: `Bearer ${token}`,
