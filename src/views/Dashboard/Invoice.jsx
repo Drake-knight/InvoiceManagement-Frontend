@@ -70,6 +70,19 @@ const Invoice = () => {
 		}
 	};
 
+	const handleRemoveLine = async (line_item_id) => {
+		try {
+			await axios.delete(`/line-items/${line_item_id}`, {
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			});
+			fetchData(userId);
+		} catch (error) {
+			console.error("Error deleting invoice:", error);
+		}
+	};
+
 	const handleAddInvoice = async (values) => {
 		try {
 			await axios.post("/invoices", values, {
@@ -84,9 +97,38 @@ const Invoice = () => {
 		}
 	};
 
+	const handleAddLine = async (values) => {
+		try {
+			await axios.post("/line-items", values, {
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			});
+			fetchData(userId);
+			setModalVisible(false);
+		} catch (error) {
+			console.error("Error adding invoice:", error);
+		}
+	};
+
 	const handleUpdateInvoice = async (values) => {
 		try {
 			await axios.put(`/invoices/${values.invoice_id}`, values, {
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			});
+			fetchData(userId);
+			setModalVisible(false);
+		} catch (error) {
+			console.error("Error adding invoice:", error);
+		}
+	};
+
+	const handleUpdateLine = async (values, line_item_id) => {
+		try {
+			console.log(values);
+			await axios.put(`/line-items/${line_item_id}`, values, {
 				headers: {
 					Authorization: `Bearer ${token}`,
 				},
@@ -162,6 +204,9 @@ const Invoice = () => {
 							data={data}
 							handleDelete={handleDelete}
 							handleUpdateInvoice={handleUpdateInvoice}
+							handleRemoveLine={handleRemoveLine}
+							handleAddLine={handleAddLine}
+							handleUpdateLine={handleUpdateLine}
 						/>
 					)}
 				</div>
