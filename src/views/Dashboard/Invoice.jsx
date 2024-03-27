@@ -4,6 +4,7 @@ import AddInvoice from "./AddInvoice.jsx";
 import { Button, Layout, Menu, Breadcrumb, Typography, Spin } from "antd";
 import InvoiceTable from "./InvoiceTable.jsx";
 import AppFooter from "./Footer.jsx";
+import { useHistory } from "react-router-dom";
 
 const { Header, Content } = Layout;
 const { Title } = Typography;
@@ -14,6 +15,7 @@ const Invoice = () => {
 	const [modalVisible, setModalVisible] = useState(false);
 	const [token, setToken] = useState("");
 	const [userId, setUserId] = useState("");
+	const history = useHistory();
 
 	useEffect(() => {
 		const storedUserId = localStorage.getItem("user_id");
@@ -21,6 +23,12 @@ const Invoice = () => {
 			setUserId(storedUserId);
 		}
 	}, []);
+
+	const handleUnauthorized = (error) => {
+		if (error.response && error.response.status === 401) {
+			history.push("/login");
+		}
+	};
 
 	useEffect(() => {
 		const storedToken = localStorage.getItem("jwtToken");
@@ -51,6 +59,7 @@ const Invoice = () => {
 			}));
 			setData(truncatedData);
 		} catch (error) {
+			handleUnauthorized(error);
 			console.error("Error fetching data:", error);
 		} finally {
 			setLoading(false);
@@ -66,6 +75,7 @@ const Invoice = () => {
 			});
 			fetchData(userId);
 		} catch (error) {
+			handleUnauthorized(error);
 			console.error("Error deleting invoice:", error);
 		}
 	};
@@ -79,6 +89,7 @@ const Invoice = () => {
 			});
 			fetchData(userId);
 		} catch (error) {
+			handleUnauthorized(error);
 			console.error("Error deleting invoice:", error);
 		}
 	};
@@ -93,6 +104,7 @@ const Invoice = () => {
 			fetchData(userId);
 			setModalVisible(false);
 		} catch (error) {
+			handleUnauthorized(error);
 			console.error("Error adding invoice:", error);
 		}
 	};
@@ -107,6 +119,7 @@ const Invoice = () => {
 			fetchData(userId);
 			setModalVisible(false);
 		} catch (error) {
+			handleUnauthorized(error);
 			console.error("Error adding invoice:", error);
 		}
 	};
@@ -121,6 +134,7 @@ const Invoice = () => {
 			fetchData(userId);
 			setModalVisible(false);
 		} catch (error) {
+			handleUnauthorized(error);
 			console.error("Error adding invoice:", error);
 		}
 	};
@@ -135,6 +149,7 @@ const Invoice = () => {
 			fetchData(userId);
 			setModalVisible(false);
 		} catch (error) {
+			handleUnauthorized(error);
 			console.error("Error adding invoice:", error);
 		}
 	};
@@ -152,7 +167,7 @@ const Invoice = () => {
 			});
 			localStorage.removeItem("jwtToken");
 			localStorage.removeItem("user_id");
-			window.location.reload();
+			history.push("/login");
 		} catch (error) {
 			console.error("Error logging out:", error);
 		}
