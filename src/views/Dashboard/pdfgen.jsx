@@ -11,12 +11,28 @@ const styles = StyleSheet.create({
 		marginBottom: "5%",
 		textAlign: "center",
 	},
+	headerText: {
+		fontSize: 24,
+		fontWeight: "bold",
+		marginBottom: "2%",
+	},
+	separator: {
+		borderBottomWidth: 2,
+		borderBottomColor: "#000",
+		marginBottom: "5%",
+	},
 	section: {
 		marginBottom: "5%",
 	},
 	sectionTitle: {
 		fontWeight: "bold",
-		marginBottom: 5,
+		marginBottom: "2%",
+	},
+	customerInfo: {
+		marginBottom: "5%",
+	},
+	customerInfoItem: {
+		marginBottom: "2%",
 	},
 	table: {
 		display: "table",
@@ -48,13 +64,16 @@ const InvoicePDF = ({ record }) => (
 	<Document>
 		<Page size="A4" style={styles.page}>
 			<View style={styles.header}>
-				<Text style={{ fontSize: 20 }}>Invoice</Text>
+				<Text style={styles.headerText}>Invoice</Text>
+				<View style={styles.separator} />
 			</View>
 			<View style={styles.section}>
 				<Text style={styles.sectionTitle}>Customer Details:</Text>
-				<Text>{record.customer_name}</Text>
-				<Text>{record.customer_phone}</Text>
-				<Text>{record.customer_email}</Text>
+				<View style={styles.customerInfo}>
+					<Text style={styles.customerInfoItem}>Name: {record.customer_name}</Text>
+					<Text style={styles.customerInfoItem}>Phone: {record.customer_phone}</Text>
+					<Text style={styles.customerInfoItem}>Email: {record.customer_email}</Text>
+				</View>
 			</View>
 			<View style={styles.table}>
 				<View style={[styles.tableRow, styles.tableHeader]}>
