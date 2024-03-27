@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { Table, Button, Modal, Form, Input, Space, DatePicker, InputNumber } from "antd";
 import moment from "moment";
+import { PDFDownloadLink } from "@react-pdf/renderer";
+import InvoicePDF from "./pdfgen.jsx";
 
 const InvoiceTable = ({
 	data,
@@ -37,6 +39,18 @@ const InvoiceTable = ({
 					<Button onClick={() => handleEditInvoice(record)}>Edit Invoice</Button>
 					<Button onClick={() => handleViewLineItems(record)}>View Line Items</Button>
 				</Space>
+			),
+		},
+		{
+			title: "Action",
+			render: (text, record) => (
+				<PDFDownloadLink
+					document={<InvoicePDF record={record} />}
+					fileName={`invoice_${record.invoice_id}.pdf`}>
+					{({ blob, url, loading, error }) =>
+						loading ? "Loading document..." : "Download Invoice"
+					}
+				</PDFDownloadLink>
 			),
 		},
 	];
